@@ -9,8 +9,6 @@ import time
 import math
 import numpy as np
 import fitz 
-import pygame
-
 
 ##  GLOBALS  ##
 current_page = 0
@@ -20,15 +18,6 @@ points = np.zeros((0, 5))
 pTime = 0
 cTime = 0
 lastPageChange = 0
-
-# Initialize the mixer module
-pygame.mixer.init()
-
-# Load the sound
-
-sound_files = [f'sound{i}.mp3' for i in range(10)]  # List of sound file names
-turn_page_sounds = [pygame.mixer.Sound(sound_file) for sound_file in sound_files]  # Load sounds
-current_sound_index = 0  # Initialize sound index
 
 
 class handDetector():
@@ -164,7 +153,6 @@ def readBothHands(lmListLeft, lmListRight, img, cTime):
 
     totalLeft = getHandTotal(lmList=lmListLeft, cTime=cTime, scalar=leftScaler)
     totalRight = getHandTotal(lmList=lmListRight, cTime=cTime, scalar=rightScaler)
-    global turn_page_sound
     if(totalLeft < 200):
         if cTime - pastInTime > 0:
             print(lastPageChange)
@@ -172,7 +160,6 @@ def readBothHands(lmListLeft, lmListRight, img, cTime):
                 lastPageChange = 0
                 print("Turn page LEFT")
                 go_to_previous_page()     
-                play_page_turn_sound()
                 
                 
                 
@@ -183,7 +170,6 @@ def readBothHands(lmListLeft, lmListRight, img, cTime):
                 lastPageChange = 0
                 print("Turn page RIGHT")
                 go_to_next_page()
-                play_page_turn_sound()
                 
             
 
@@ -242,14 +228,6 @@ def counter():
         cv2.imshow("Image", img)
         cv2.waitKey(1)
         # **** Hand Detection **** #
-
-def play_page_turn_sound():
-    global current_sound_index, turn_page_sounds
-    # Play the current "page turn" sound
-    turn_page_sounds[current_sound_index].play()
-    # Move to the next sound, cycling back to 0 after the last one
-    current_sound_index = (current_sound_index + 1) % len(turn_page_sounds)
-
 
 # Function to handle page changes
 def go_to_next_page():
