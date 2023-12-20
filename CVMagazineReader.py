@@ -267,7 +267,7 @@ def main():
 
 
     # Load your PDF
-    pdf_path = 'justice_is_served.pdf'
+    pdf_path = 'The-Grand-Budapest-Hotel-.pdf'
     pdf_document = fitz.open(pdf_path)
     # Initialize the tkinter windows
     main_window = tk.Tk()
